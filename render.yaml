@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: churn-predictor
+    env: docker
+    repo: https://github.com/rkharshit/churn-predictor
+    region: oregon
+    plan: free
+    branch: main 
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    healthCheckPath: /
+    envWars:
+      - key: PORT
+        value: 5000
