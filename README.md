@@ -1,6 +1,6 @@
-# Telecom Customer Churn Prediction
+# 📈 Telecom Customer Churn Prediction
 
-This project is an end-to-end machine learning application to predict telecom customer churn. It includes data preprocessing, feature engineering, model building, a web interface via Flask, and Docker containerization for deployment.
+This project is an end-to-end machine learning pipeline to predict telecom customer churn. It covers exploratory analysis, feature engineering, model building, web app deployment using Flask, Dockerization, and cloud hosting via Render.
 
 ---
 
@@ -13,10 +13,9 @@ D:/Project/
 │   ├── logistic_model.pkl
 │   └── scaler.pkl
 ├── notebooks/                    # Jupyter notebooks for development
-│              
 ├── templates/                    # HTML templates for Flask frontend
 │   └── form.html
-├── __pycache__/                  # Python cache
+├── render.yaml                   # Render config
 ├── app.py                        # Flask application
 ├── Dockerfile                    # Docker build instructions
 ├── docker-compose.yml           # Docker Compose for scaling
@@ -30,25 +29,26 @@ D:/Project/
 
 - 📊 Data Exploration & Feature Engineering
 - 🔍 Logistic Regression Model
-- 🌐 Flask Web App for Real-Time Prediction
+- 🌐 Flask Web Interface for Predictions
 - 🐳 Dockerized for Portability
-- ⚙️ Docker Compose for Scalable Deployment
+- ⚙️ Docker Compose for Scaling
+- ☁️ Deployed on [Render](https://churn-predictor-yngj.onrender.com)
 
 ---
 
 ## 🧪 ML Model Details
 
-- Model: Logistic Regression  
-- Preprocessing: Scaling + One-Hot Encoding + Feature Engineering  
-- Target: Customer Churn (Yes/No)
+- **Algorithm**: Logistic Regression  
+- **Preprocessing**: Standard Scaling, One-Hot Encoding, Feature Grouping  
+- **Target Variable**: Customer Churn (Yes/No)
 
 ---
 
-## 🚀 How to Run Locally
+## 🚀 Run Locally (without Docker)
 
-1. Clone the repo:
+1. Clone the repository:
    ```bash
-   git clone https://github.com/RKHARSHIT/churn-predictor.git
+   git clone https://github.com/rkharshit/churn-predictor.git
    cd churn-predictor
    ```
 
@@ -57,24 +57,27 @@ D:/Project/
    pip install -r requirements.txt
    ```
 
-3. Start the Flask app:
+3. Launch the app:
    ```bash
    python app.py
    ```
 
-4. Go to `http://127.0.0.1:5000/` in your browser.
+4. Open in browser:
+   ```
+   http://127.0.0.1:5000/
+   ```
 
 ---
 
 ## 🐳 Docker Instructions
 
-### 👉 Build Docker Image
+### 🔨 Build Docker Image
 
 ```bash
 docker build -t churn-predictor .
 ```
 
-### 👉 Run Container
+### 🚀 Run the Container
 
 ```bash
 docker run -d --name churn_app -p 5000:5000 churn-predictor
@@ -82,12 +85,11 @@ docker run -d --name churn_app -p 5000:5000 churn-predictor
 
 ---
 
-## 🧱 Docker Compose
+## 📦 Docker Compose
 
-Use Docker Compose for orchestration:
+For local orchestration:
 
 ```yaml
-# docker-compose.yml
 version: '3'
 services:
   web:
@@ -96,7 +98,7 @@ services:
       - "5000:5000"
 ```
 
-Then run:
+Run it:
 
 ```bash
 docker-compose up --build -d
@@ -104,17 +106,64 @@ docker-compose up --build -d
 
 ---
 
-## 📦 Publish to GitHub Container Registry
+## 🗃️ Push to GitHub Container Registry (GHCR)
 
-1. Login:
+1. Authenticate:
    ```bash
-   echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
+   echo <YOUR_FINE_GRAINED_PAT> | docker login ghcr.io -u rkharshit --password-stdin
    ```
 
-2. Tag and push:
+2. Tag & Push:
    ```bash
-   docker tag churn-predictor ghcr.io/USERNAME/churn-predictor
-   docker push ghcr.io/USERNAME/churn-predictor
+   docker tag churn-predictor ghcr.io/rkharshit/churn-predictor:latest
+   docker push ghcr.io/rkharshit/churn-predictor:latest
    ```
 
 ---
+
+## 🌍 Render Deployment
+
+**Live App**: [https://churn-predictor-yngj.onrender.com](https://churn-predictor-yngj.onrender.com)
+
+### `render.yaml` Configuration
+
+```yaml
+services:
+  - type: web
+    name: churn-predictor
+    env: docker
+    repo: https://github.com/rkharshit/churn-predictor
+    region: oregon
+    plan: free
+    branch: main
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 5000
+```
+
+---
+## ✅ Final Deployment Checklist
+
+- [x] Flask app built and running
+- [x] Dockerized and tested locally
+- [x] GitHub repo created and pushed
+- [x] Docker image pushed to GHCR
+- [x] Render deployment created and working
+- [x] `render.yaml` configured
+- [x] Project public at `https://churn-predictor-yngj.onrender.com`
+- [x] README created and published
+
+---
+
+## 🙌 Credits
+
+Project built by **[HARSHIT ARORA](https://github.com/rkharshit)**  
+
+---
+
+## 📬 Questions or Feedback?
+
+Raise an issue in [GitHub Issues](https://github.com/rkharshit/churn-predictor/issues)
